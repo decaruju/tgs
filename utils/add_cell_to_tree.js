@@ -1,7 +1,6 @@
 import entity_factory from '../entities/entity_factory.js';
 
 async function addCellToTree(state, treeId, position) {
-    console.log(position);
     const treeCell = await state.buildEntity(
         'tree_cell',
         {
@@ -29,10 +28,15 @@ async function addCellToTree(state, treeId, position) {
                     inTree: {
                         treeId,
                     },
-                }
+                },
             );
             tree.shadowEntity.entity.grid.index(potentialTreeCell, neighborPosition);
             potentialTreeCell.clickable.callback = () => {
+                if (state.resources.energy.resourceMeter.resource < 1000 || state.resources.water.resourceMeter.resource < 500) {
+                    return;
+                }
+                state.resources.energy.resourceMeter.resource -= 1000;
+                state.resources.water.resourceMeter.resource -= 500;
                 state.removeEntity(potentialTreeCell.id);
                 tree.shadowEntity.entity.grid.remove(neighborPosition);
                 tree.shadowEntity.entity.grid.neighbors(neighborPosition).forEach((entity) => {

@@ -47,9 +47,13 @@ class State {
 
     getEntities(components=[]) {
         return Object.values(this.entities).filter((entity) => {
-            return components.every((component) => {
-                return !!entity[component];
-            });
+            return this.hasComponents(entity, components);
+        });
+    }
+
+    hasComponents(entity, components=[]) {
+        return components.every((component) => {
+            return !!entity[component];
         });
     }
 }

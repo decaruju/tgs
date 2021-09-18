@@ -26,6 +26,10 @@ class Grid extends Component {
         delete this.grid[this.key(position)];
     }
 
+    map(predicate) {
+        return Object.values(this.grid).map(predicate);
+    }
+
     neighborPositions(position) {
         const {x, y} = position;
         return [
