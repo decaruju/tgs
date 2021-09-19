@@ -9,4 +9,11 @@ export default {
     },
     inTree: {},
     clickable: {},
+    tooltipOnHover: {
+        tooltipArgs: {
+            drawableText: {
+                prefix: "Buy for 10"
+            }
+        }
+    }
 };

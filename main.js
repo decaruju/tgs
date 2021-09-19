@@ -6,7 +6,9 @@ import calculateResource from './systems/calculate_resource.js';
 import clearCanvas from './systems/clear_canvas.js';
 import addCellToTree from './utils/add_cell_to_tree.js';
 import monkeyPatches from './monkey-patches.js';
-import ClickObserver from './observers/click_observer.js';
+import callbackOnClick from './observers/callback_on_click.js';
+import addTooltipOnHover from './observers/add_tooltip_on_hover.js';
+import removeOrphans from './systems/remove_orphans.js';
 
 const canvas = document.getElementById("main");
 const state = new State(
@@ -16,10 +18,16 @@ const state = new State(
         displaySquare,
         spinInCircles,
         calculateResource,
+        removeOrphans,
     ],
-    [
-        ClickObserver,
-    ]
+    {
+        click: [
+            callbackOnClick,
+        ],
+        hover: [
+            addTooltipOnHover,
+        ],
+    }
 );
 
 state.transform.center.y = -400;

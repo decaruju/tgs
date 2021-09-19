@@ -5,20 +5,46 @@ class State {
     constructor(canvas, systems, observers) {
         this.canvas = canvas;
         this.systems = systems;
-        this.observerInstances = observers.map((observer) => {
-            const observerInstance = new observer();
-            observerInstance.attach(this);
-            return observerInstance;
-        });
         this.entities = {};
+        this.events = {};
         this.currentId = 1;
         this.transform = new Transform();
+        this.attachObservers(observers);
     }
 
     tick() {
         this.systems.forEach((system) => {
             system.call(this);
         });
+    }
+
+    attachObservers(observers) {
+        this.attachClickObservers(observers.click || []);
+        this.attachHoverObservers(observers.hover || []);
+    }
+
+    canvasCoordinates(event) {
+        const elemLeft = this.canvas.offsetLeft + this.canvas.clientLeft;
+        const elemTop = this.canvas.offsetTop + this.canvas.clientTop;
+        const x = event.pageX - elemLeft + this.transform.center.x;
+        const y = event.pageY - elemTop + this.transform.center.y;
+        return {x, y};
+    }
+
+    attachClickObservers(observers) {
+        this.canvas.addEventListener('click', (event) => {
+            observers.forEach((observer) => {
+                observer.call(this, this.canvasCoordinates(event));
+            });
+        }, this);
+    }
+
+    attachHoverObservers(observers) {
+        this.canvas.onmousemove = (event) => {
+            observers.forEach((observer) => {
+                observer.call(this, this.canvasCoordinates(event));
+            });
+        };
     }
 
     async buildEntity(entity_name, args) {

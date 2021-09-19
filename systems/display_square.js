@@ -22,7 +22,8 @@ function drawRectangle(state, entity, context) {
 }
 
 function drawText(state, entity, context) {
-    const text = entity.drawableText.prefix + entity.drawableText.text(entity);
+    let text = ((typeof entity.drawableText.text) == "string") ? entity.drawableText.text : entity.drawableText.text(entity);
+    text = entity.drawableText.prefix + text;
     context.font = "30px Arial";
     context.fillStyle = entity.drawableText.color;
     const {x, y} = entity.position.transformed ? state.transform.transformPoint(entity.position) : entity.position;
