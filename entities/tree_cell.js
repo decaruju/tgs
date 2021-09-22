@@ -10,7 +10,7 @@ export default {
     clickable: {
         callback: (entity, state) => {
             const prices = entity.price.prices;
-            if (state.resources.energy.resourceMeter.resource < prices.energy || state.resources.water.resourceMeter.resource < prices.water) return;
+            if (entity.position.gridPosition().y == 0 || state.resources.energy.resourceMeter.resource < prices.energy || state.resources.water.resourceMeter.resource < prices.water) return;
             state.resources.energy.resourceMeter.resource -= prices.energy;
             state.resources.water.resourceMeter.resource -= prices.water;
             entity.level.level += 1;
@@ -30,6 +30,7 @@ export default {
             drawableText: {
                 text: (entity, state) => {
                     const parent = state.getEntity(entity.childOf.parent);
+                    if (parent.position.gridPosition().y == 0) return '';
                     if (!parent) return '';
                     const prices = parent.price.prices;
                     return `Level ${parent.level.level}, Upgrade for ${prices.water} water\n${prices.energy} energy`;
