@@ -2,7 +2,7 @@ export default {
     drawableText: {
         color: "#FFFFFF",
         prefix: "",
-        text: (entity) => Math.floor(entity.resourceMeter.resource/10),
+        text: (entity) => Math.floor(entity.resourceMeter.resource),
     },
     position: {
         z: 10,

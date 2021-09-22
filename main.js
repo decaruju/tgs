@@ -33,6 +33,27 @@ const state = new State(
 state.transform.center.y = -400;
 state.transform.center.x = -600;
 
+function energyEarnPredicate(cell, tree) {
+    const degree = tree.grid.degree(cell.position.gridPosition);
+    if (degree > 1) return 0;
+
+    return Math.pow(2, cell.level.level-1)/10.;
+}
+function energySpendPredicate(cell, tree) {
+    if (cell.position.gridPosition().y == 0) return 0;
+    return Math.pow(2, cell.level.level-1)/20;
+}
+
+function waterEarnPredicate(cell, tree) {
+    if (cell.position.gridPosition().y < 0) return 0;
+    return Math.pow(2, cell.level.level-1)/20;
+}
+
+function waterSpendPredicate(cell, tree) {
+    if (cell.position.gridPosition().y == 0) return 0;
+    return Math.pow(2, cell.level.level-1)/50;
+}
+
 window.state = state;
 
 (
@@ -42,9 +63,9 @@ window.state = state;
         const sun = await state.buildEntity('sun');
         const energy = await state.buildEntity('resource_meter', {
             resourceMeter: {
-                earnPredicate: (cell, tree) => +(tree.grid.degree(cell.position.gridPosition()) <= 1 && cell.position.y <= 0),
-                spendPredicate: (cell, tree) => (cell.position.y != 0)/5,
-                resource: 2500,
+                earnPredicate: energyEarnPredicate,
+                spendPredicate: energySpendPredicate,
+                resource: 250,
             },
             drawableText: {
                 prefix: 'Energy: ',
@@ -52,9 +73,9 @@ window.state = state;
         });
         const water = await state.buildEntity('resource_meter', {
             resourceMeter: {
-                earnPredicate: (cell, tree) => +(cell.position.y >= 0)/2,
-                spendPredicate: (cell, tree) => (cell.position.y != 0)/5,
-                resource: 2500,
+                earnPredicate: waterEarnPredicate,
+                spendPredicate: waterSpendPredicate,
+                resource: 250,
             },
             position: {
                 x: 300,

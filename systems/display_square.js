@@ -22,7 +22,7 @@ function drawRectangle(state, entity, context) {
 }
 
 function drawText(state, entity, context) {
-    let text = ((typeof entity.drawableText.text) == "string") ? entity.drawableText.text : entity.drawableText.text(entity);
+    let text = ((typeof entity.drawableText.text) == "string") ? entity.drawableText.text : entity.drawableText.text(entity, state);
     text = entity.drawableText.prefix + text;
     context.font = "30px Arial";
     context.fillStyle = entity.drawableText.color;

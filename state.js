@@ -10,11 +10,16 @@ class State {
         this.currentId = 1;
         this.transform = new Transform();
         this.attachObservers(observers);
+        this.observers = observers;
+        this.mousePos = {x: 0, y: 0};
     }
 
     tick() {
         this.systems.forEach((system) => {
             system.call(this);
+            this.observers.hover.forEach((observer) => {
+                observer.call(this, this.mousePos);
+            });
         });
     }
 
@@ -41,9 +46,7 @@ class State {
 
     attachHoverObservers(observers) {
         this.canvas.onmousemove = (event) => {
-            observers.forEach((observer) => {
-                observer.call(this, this.canvasCoordinates(event));
-            });
+            this.mousePos = this.canvasCoordinates(event);
         };
     }
 

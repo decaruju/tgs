@@ -9,10 +9,21 @@ export default {
     },
     inTree: {},
     clickable: {},
+    price: {
+        prices: {
+            water: 50,
+            energy: 100,
+        },
+    },
     tooltipOnHover: {
         tooltipArgs: {
             drawableText: {
-                prefix: "Buy for 10"
+                text: (entity, state) => {
+                    const parent = state.getEntity(entity.childOf.parent);
+                    if (!parent) return '';
+                    const prices = parent.price.prices;
+                    return `Buy new cell for ${prices.water} water\n${prices.energy} energy`;
+                }
             }
         }
     }

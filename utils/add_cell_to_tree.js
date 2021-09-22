@@ -32,11 +32,12 @@ async function addCellToTree(state, treeId, position) {
             );
             tree.shadowEntity.entity.grid.index(potentialTreeCell, neighborPosition);
             potentialTreeCell.clickable.callback = () => {
-                if (state.resources.energy.resourceMeter.resource < 1000 || state.resources.water.resourceMeter.resource < 500) {
+                const prices = potentialTreeCell.price.prices;
+                if (state.resources.energy.resourceMeter.resource < prices.energy || state.resources.water.resourceMeter.resource < prices.water) {
                     return;
                 }
-                state.resources.energy.resourceMeter.resource -= 1000;
-                state.resources.water.resourceMeter.resource -= 500;
+                state.resources.energy.resourceMeter.resource -= prices.energy;
+                state.resources.water.resourceMeter.resource -= prices.water;
                 state.removeEntity(potentialTreeCell.id);
                 tree.shadowEntity.entity.grid.remove(neighborPosition);
                 tree.shadowEntity.entity.grid.neighbors(neighborPosition).forEach((entity) => {

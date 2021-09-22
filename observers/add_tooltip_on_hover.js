@@ -1,5 +1,3 @@
-import Observer from './observer.js';
-
 export default function(event) {
     this.getEntities(['tooltipOnHover', 'position']).forEach(async (entity) => {
         if (
