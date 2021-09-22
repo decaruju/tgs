@@ -9,6 +9,7 @@ import monkeyPatches from './monkey-patches.js';
 import callbackOnClick from './observers/callback_on_click.js';
 import addTooltipOnHover from './observers/add_tooltip_on_hover.js';
 import removeOrphans from './systems/remove_orphans.js';
+import destroyCells from './systems/destroy_cells.js';
 
 const canvas = document.getElementById("main");
 const state = new State(
@@ -17,6 +18,7 @@ const state = new State(
         clearCanvas,
         displaySquare,
         spinInCircles,
+        destroyCells,
         calculateResource,
         removeOrphans,
     ],
@@ -65,7 +67,7 @@ window.state = state;
             resourceMeter: {
                 earnPredicate: energyEarnPredicate,
                 spendPredicate: energySpendPredicate,
-                resource: 250,
+                resource: 2500,
             },
             drawableText: {
                 prefix: 'Energy: ',

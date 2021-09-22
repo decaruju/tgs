@@ -6,6 +6,12 @@ class ResourceMeter extends Component {
         this.earnPredicate = earnPredicate;
         this.spendPredicate = spendPredicate;
         this.resource = resource;
+        this.delta = 0;
+    }
+
+    applyDelta(delta) {
+        this.delta = delta;
+        this.resource += delta;
     }
 }
 

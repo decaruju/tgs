@@ -23,7 +23,9 @@ class Grid extends Component {
     }
 
     remove(position) {
-        delete this.grid[this.key(position)];
+        const entity = this.getCell(position);
+        if (entity) delete this.grid[this.key(position)];
+        return entity;
     }
 
     map(predicate) {

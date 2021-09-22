@@ -25,6 +25,7 @@ export default {
         },
     },
     level: {},
+    inTree: {},
     tooltipOnHover: {
         tooltipArgs: {
             drawableText: {
