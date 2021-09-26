@@ -1,4 +1,5 @@
 import entity_factory from '../entities/entity_factory.js';
+import updateCellPaths from './update_cell_paths.js';
 
 async function addCellToTree(state, treeId, position) {
     const treeCell = await state.buildEntity(
@@ -48,6 +49,9 @@ async function addCellToTree(state, treeId, position) {
         }
         })
     );
+    updateCellPaths(state, treeId);
+
+    return treeCell;
 }
 
 export default addCellToTree;

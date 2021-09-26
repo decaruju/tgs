@@ -1,5 +1,6 @@
 import entity_factory from '../entities/entity_factory.js';
 import addCellToTree from './add_cell_to_tree.js';
+import updateCellPaths from './update_cell_paths.js';
 
 async function removeCellFromTree(cell, state) {
     const position = cell.position.gridPosition();
@@ -37,6 +38,7 @@ async function removeCellFromTree(cell, state) {
         });
         addCellToTree(state, tree.id, position);
     };
+    updateCellPaths(state, tree.id);
 }
 
 export default removeCellFromTree;

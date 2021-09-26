@@ -1,8 +1,24 @@
 export default {
+    animation: {},
     drawableRect: {
+        width: 32,
+        height: 32,
+        color: "#00000000"
+    },
+    drawablePath: {
         color: "#905030",
-        width: 30,
-        height: 30,
+        paths: [
+            [
+                {x: 16, y: 0},
+                {x: 16, y: 16},
+                {x: 16, y: 32},
+            ],
+            [
+                {x: 16, y: 0},
+                {x: 16, y: 16},
+                {x: 16, y: 32},
+            ],
+        ],
     },
     position: {
         z: 1,
@@ -10,7 +26,7 @@ export default {
     clickable: {
         callback: (entity, state) => {
             const prices = entity.price.prices;
-            if (entity.position.gridPosition().y == 0 || state.resources.energy.resourceMeter.resource < prices.energy || state.resources.water.resourceMeter.resource < prices.water) return;
+            if (state.resources.energy.resourceMeter.resource < prices.energy || state.resources.water.resourceMeter.resource < prices.water) return;
             state.resources.energy.resourceMeter.resource -= prices.energy;
             state.resources.water.resourceMeter.resource -= prices.water;
             entity.level.level += 1;
@@ -24,14 +40,24 @@ export default {
             energy: 100,
         },
     },
+    changePropertyOnHover: {
+        property: 'drawablePath.color',
+        falseValue: "#905030",
+        trueValue: "#A09050",
+    },
     level: {},
     inTree: {},
+    drawableText: {
+        color: "#FFFFFF",
+        prefix: "",
+        offset: { x: 0, y: 30 },
+        text: (entity) => entity.level.level,
+    },
     tooltipOnHover: {
         tooltipArgs: {
             drawableText: {
                 text: (entity, state) => {
                     const parent = state.getEntity(entity.childOf.parent);
-                    if (parent.position.gridPosition().y == 0) return '';
                     if (!parent) return '';
                     const prices = parent.price.prices;
                     return `Level ${parent.level.level}, Upgrade for ${prices.water} water\n${prices.energy} energy`;

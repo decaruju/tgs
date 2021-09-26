@@ -3,6 +3,7 @@ export default {
         color: "#005030",
         width: 30,
         height: 30,
+        filled: false,
     },
     position: {
         z: 1,
@@ -14,6 +15,11 @@ export default {
             water: 50,
             energy: 100,
         },
+    },
+    changePropertyOnHover: {
+        property: 'drawableRect.color',
+        falseValue: "#005030",
+        trueValue: "#00F0A0",
     },
     tooltipOnHover: {
         tooltipArgs: {

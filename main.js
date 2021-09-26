@@ -8,8 +8,10 @@ import addCellToTree from './utils/add_cell_to_tree.js';
 import monkeyPatches from './monkey-patches.js';
 import callbackOnClick from './observers/callback_on_click.js';
 import addTooltipOnHover from './observers/add_tooltip_on_hover.js';
+import changePropertyOnHover from './observers/change_property_on_hover.js';
 import removeOrphans from './systems/remove_orphans.js';
 import destroyCells from './systems/destroy_cells.js';
+import tickAnimations from './systems/tick_animations.js';
 
 const canvas = document.getElementById("main");
 const state = new State(
@@ -20,6 +22,7 @@ const state = new State(
         spinInCircles,
         destroyCells,
         calculateResource,
+        tickAnimations,
         removeOrphans,
     ],
     {
@@ -28,6 +31,7 @@ const state = new State(
         ],
         hover: [
             addTooltipOnHover,
+            changePropertyOnHover
         ],
     }
 );
@@ -90,7 +94,10 @@ window.state = state;
         const potentialTree = await state.buildEntity('tree');
         const tree = await state.buildEntity('tree', { shadowEntity: { entity: potentialTree } });
         state.trees = [tree];
-        addCellToTree(state, tree.id, {x: 0, y: 0});
+        const cell = await addCellToTree(state, tree.id, {x: 0, y: 0});
+        delete cell.changePropertyOnHover;
+        delete cell.clickable;
+        delete cell.tooltipOnHover;
     }
 )().then(() => {
     setInterval(state.tick.bind(state), 15);
