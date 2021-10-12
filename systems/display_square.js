@@ -44,8 +44,28 @@ function drawText(state, entity, context) {
 }
 
 function drawPath(state, entity, context) {
-    context.strokeStyle = entity.drawablePath.color;
-    entity.drawablePath.paths.forEach((path) => {
+    context.fillStyle = entity.drawablePath.color;
+    context.beginPath();
+    let first = true;
+    Object.values(entity.drawablePath.paths).forEach((path) => {
+        if (first) {
+            const {x, y} = state.transform.transformPoint(path[0]);
+            context.moveTo(x+entity.position.x, y+entity.position.y);
+            first = false;
+            path.slice(1).forEach((node) => {
+                const {x, y} = state.transform.transformPoint(node);
+                context.lineTo(x+entity.position.x, y+entity.position.y);
+            });
+            return;
+        }
+        path.forEach((node) => {
+            const {x, y} = state.transform.transformPoint(node);
+            context.lineTo(x+entity.position.x, y+entity.position.y);
+        });
+    });
+    context.fill();
+    context.strokeStyle = entity.drawablePath.strokeColor;
+    Object.values(entity.drawablePath.paths).forEach((path) => {
         context.beginPath();
         const {x, y} = state.transform.transformPoint(path[0]);
         context.moveTo(x+entity.position.x, y+entity.position.y);

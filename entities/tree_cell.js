@@ -7,18 +7,29 @@ export default {
     },
     drawablePath: {
         color: "#905030",
-        paths: [
-            [
-                {x: 16, y: 0},
-                {x: 16, y: 16},
+        strokeColor: "#703010",
+        paths: {
+            SW: [
+                {x: 16, y: 32},
+                {x: 16, y: 32},
                 {x: 16, y: 32},
             ],
-            [
-                {x: 16, y: 0},
-                {x: 16, y: 16},
+            NW: [
+                {x: 16, y: 32},
+                {x: 16, y: 32},
                 {x: 16, y: 32},
             ],
-        ],
+            NE: [
+                {x: 16, y: 32},
+                {x: 16, y: 32},
+                {x: 16, y: 32},
+            ],
+            SE: [
+                {x: 16, y: 32},
+                {x: 16, y: 32},
+                {x: 16, y: 32},
+            ],
+        },
     },
     position: {
         z: 1,
@@ -47,12 +58,12 @@ export default {
     },
     level: {},
     inTree: {},
-    drawableText: {
-        color: "#FFFFFF",
-        prefix: "",
-        offset: { x: 0, y: 30 },
-        text: (entity) => entity.level.level,
-    },
+    // drawableText: {
+    //     color: "#FFFFFF",
+    //     prefix: "",
+    //     offset: { x: 0, y: 30 },
+    //     text: (entity) => entity.level.level,
+    // },
     tooltipOnHover: {
         tooltipArgs: {
             drawableText: {

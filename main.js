@@ -94,7 +94,7 @@ window.state = state;
         const potentialTree = await state.buildEntity('tree');
         const tree = await state.buildEntity('tree', { shadowEntity: { entity: potentialTree } });
         state.trees = [tree];
-        const cell = await addCellToTree(state, tree.id, {x: 0, y: 0});
+        const cell = await addCellToTree(state, tree.id, {x: 0, y: 0}, {x: 0, y: 0});
         delete cell.changePropertyOnHover;
         delete cell.clickable;
         delete cell.tooltipOnHover;

@@ -1,7 +1,16 @@
 import entity_factory from '../entities/entity_factory.js';
 import updateCellPaths from './update_cell_paths.js';
 
-async function addCellToTree(state, treeId, position) {
+function movePaths(paths, position) {
+    Object.values(paths).forEach((path) => {
+        path.forEach((cell) => {
+            cell.x = position.x;
+            cell.y = position.y;
+        });
+    });
+}
+
+async function addCellToTree(state, treeId, position, direction) {
     const treeCell = await state.buildEntity(
         'tree_cell',
         {
@@ -14,6 +23,8 @@ async function addCellToTree(state, treeId, position) {
             },
         },
     );
+    const startPosition = {x: 16+direction.x*16, y: 16+direction.y*16};
+    movePaths(treeCell.drawablePath.paths, startPosition);
     const tree = state.getEntity(treeId);
     tree.grid.index(treeCell, position);
     await Promise.all(
@@ -44,7 +55,7 @@ async function addCellToTree(state, treeId, position) {
                 tree.shadowEntity.entity.grid.neighbors(neighborPosition).forEach((entity) => {
                     state.removeEntity(entity.id);
                 });
-                addCellToTree(state, treeId, neighborPosition);
+                addCellToTree(state, treeId, neighborPosition, {x: position.x-neighborPosition.x, y: position.y-neighborPosition.y});
             };
         }
         })

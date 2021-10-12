@@ -36,7 +36,7 @@ async function removeCellFromTree(cell, state) {
         tree.shadowEntity.entity.grid.neighbors(position).forEach((entity) => {
             state.removeEntity(entity.id);
         });
-        addCellToTree(state, tree.id, position);
+        addCellToTree(state, tree.id, position, {x: 0, y: 0});
     };
     updateCellPaths(state, tree.id);
 }
